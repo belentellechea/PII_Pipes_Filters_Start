@@ -1,8 +1,7 @@
 ﻿using System;
 using CompAndDel.Pipes;
 using CompAndDel.Filters;
-using System.Data.Common;
-using SixLabors.ImageSharp;
+using Ucu.Poo.Twitter;
 
 namespace CompAndDel
 {
@@ -37,17 +36,22 @@ namespace CompAndDel
             IFilter filterNegative1 = new FilterGreyscale();
             IFilter filterGreyscale1 = new FilterNegative();
             
+            //imagen intermedia
             string intermediatePath = @"C:\Users\telle\OneDrive\Escritorio\programacion\PII_Pipes_Filters_Start\src\Program\intermediateluke.jpg";
             IFilter saveIntermediateFilter = new TransformationStep(intermediatePath, provider);
 
-            // Aplicación de los filtros.
+
             IPicture negativeImage = filterNegative.Filter(originalImage);
             IPicture savedNegativeImage = saveIntermediateFilter.Filter(negativeImage); // Guarda y retorna la imagen intermedia.
             IPicture greyscaleImage = filterGreyscale.Filter(savedNegativeImage);
 
-            // Guardado de la imagen final.
+            //imagen final
             string finalPath = @"C:\Users\telle\OneDrive\Escritorio\programacion\PII_Pipes_Filters_Start\src\Program\lukefinal.jpg";
             provider.SavePicture(greyscaleImage, finalPath);
+
+        //EJERCICIO 3   
+            var twitter = new TwitterImage();
+            Console.WriteLine(twitter.PublishToTwitter("foto ;)", @"C:\Users\telle\OneDrive\Escritorio\programacion\PII_Pipes_Filters_Start\src\Program\intermediateluke.jpg"));
 
         }
     }
